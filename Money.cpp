@@ -101,7 +101,7 @@ int Read(LinkedList* _ptList, unsigned int i) {
 		_ptList->m_pCurrent->m_pCurrent = _ptList->m_pCurrent->m_pCurrent->m_pNext;
 		count++;
 	}
-	cout << "총액 : " << sum << "," << "+ :" << sum__ << "- :" << sum_ << endl;
+	cout << "총액 : " << sum << "," << "\t+ :" << sum__ << "\t- :" << sum_ << endl;
 	cout << "--------------------" << _ptList->m_pCurrent->m_Date << "-------------------------" << endl;
 	return 1;
 }
@@ -148,7 +148,7 @@ void Traversal(LinkedList* _ptList) {
 void AppendFromHead(LinkedList* _ptList, unsigned int i, int _iObject, string String) {
 	if (!_ptList) { cout << ("해당리스트는 비어있습니다.\n");  return; }
 	if (i > _ptList->m_uCount) {
-		cout << ("해당 리스트는") << _ptList->m_uCount<<("개의 요소만 갖고있습니다.\n");
+		cout << ("해당 리스트는") << _ptList->m_uCount<<("개의 날짜만 갖고있습니다.\n");
 
 		return;
 	}
@@ -170,6 +170,20 @@ void AppendFromHead(LinkedList* _ptList, unsigned int i, int _iObject, string St
 
 	return;
 }
+
+
+
+
+
+void AppendFromAllHead(LinkedList* _ptList, int _iObject, string String) {
+	if (!_ptList) { cout << ("해당리스트는 비어있습니다.\n");  return; }
+	_ptList->m_pCurrent = _ptList->m_pHead;
+	for (int i = 0; i < _ptList->m_uCount; i++) {
+		AppendFromHead(_ptList, i, _iObject, String);
+	}
+	return;
+}
+
 
 Node* AppendFromTail(LinkedList* _ptList, unsigned int i, int _iObject, string String) {
 	if (!_ptList) { cout << ("해당리스트는 비어있습니다.\n");  return NULL; }
@@ -1675,7 +1689,7 @@ void SortBySelection_Object(LinkedList* _ptList) {
 		return;									//정렬이 필요없는 경우
 	}
 	int Sorted_Index = 0;
-	int count = 0;
+	int count = 0; 
 	Node* Least;
 
 	_ptList->m_pCurrent = _ptList->m_pHead;
@@ -1754,4 +1768,41 @@ void SortBySelection_String(LinkedList* _ptList) {
 		_ptList->m_pCurrent = _ptList->m_pCurrent->m_pNext;
 		count++;
 	}
+}
+
+
+
+void Merger(LinkedList* _ptList, unsigned int i, unsigned int k) {
+	if (!_ptList) { cout << ("해당리스트는 비어있습니다.\n");  return; }
+	if (i == k) {
+		cout << "자신과 합칠 수는 없습니다." << endl;
+		return;
+	}
+	if (i > _ptList->m_uCount) {
+		cout << ("해당 리스트는") << _ptList->m_uCount << ("개의 날짜만 갖고있습니다.\n");
+
+		return;
+	}
+	if (k > _ptList->m_uCount) {
+		cout << ("해당 리스트는") << _ptList->m_uCount << ("개의 날짜만 갖고있습니다.\n");
+
+		return;
+	}
+
+
+	_ptList->m_pCurrent = _ptList->m_pHead;
+	for (int j = 0; j < k; j++) {
+		_ptList->m_pCurrent = _ptList->m_pCurrent->m_pNext;
+	}
+	NodeList* tmp = _ptList->m_pCurrent;
+	int ct = tmp->m_uCount;
+	Node* Nodetmp = tmp->m_pHead;
+	for (int j = 0; j < ct; j++) {
+		AppendFromTail(_ptList, i, Nodetmp->m_iObject, Nodetmp->m_String);
+		Nodetmp = Nodetmp->m_pNext;
+	}
+
+	DeleteNode_Count_k(_ptList, k);
+
+		return;
 }

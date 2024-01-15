@@ -9,6 +9,7 @@
 #define Max 10
 using namespace std;
 
+void AppendFromAllHead(LinkedList* _ptList, int _iObject, string String);
 void Create(LinkedList** _ptList);
 void Destroy(LinkedList** _ptList);
 NodeList* GetNodeList(LinkedList** _NodeList, string String);
@@ -33,7 +34,7 @@ Node* Modify_by_Count_String(LinkedList* _ptList, unsigned int k, int count, str
 Node* Modify_Object(LinkedList* _ptList, Node* _ptNode, unsigned int k, int iObject);
 Node* Modify_by_Count_Object(LinkedList* _ptList, unsigned int k, int count, int iObject);
 void LinearSearchByDuplicate_KyeWord_String(LinkedList* _ptList, string String, int* _resultSize, Node*** _resultArray);
-
+void Merger(LinkedList* _ptList, unsigned int i, unsigned int k);
 void SortBySelection_Object(LinkedList* _ptList);
 void SortBySelection_String(LinkedList* _ptList);
 NodeList* DeleteNode_Count_k(LinkedList* _ptList, int count);
@@ -102,7 +103,7 @@ int main() {
 
 		
 
-		cout << "1. 추가  2. 삭제. 3. 탐색  4. 수정" << endl;
+		cout << "1. 추가  2. 삭제. 3. 탐색  4. 변형" << endl;
 		printf("\n\n->");
 		cin >> selection_flag2;
 		if (selection_flag2 != 1 && selection_flag2 != 2 && selection_flag2 != 3 && selection_flag2 != 4) { 
@@ -111,7 +112,7 @@ int main() {
 			continue; }
 		if (selection_flag2 == 1) {
 			printf("---------------------------------------------------------------------------\n0. 관리 구조 생성\t\t1. 항목 헤드에 추가\t\t2. 항목 테일에 추가\n");
-			printf("\n3. 원하는 위치 앞에 추가\t4. 원하는 위치 뒤 삽입\t\t5. 날짜 생성\n---------------------------------------------------------------------------\n");
+			printf("\n3. 원하는 위치 앞에 추가\t4. 원하는 위치 뒤 삽입\t\t5. 날짜 생성\t\t6. 모든 날짜에 항목 추가\n---------------------------------------------------------------------------\n");
 		}
 		if (selection_flag2 == 2) {
 			printf("---------------------------------------------------------------------------\n1. 원하는 날짜의 앞 항목 삭제\t\t2.원하는 날짜의 뒤 항목 삭제\n");
@@ -121,7 +122,7 @@ int main() {
 			printf("---------------------------------------------------------------------------\n1. 원하는 날짜 읽기\t\t2. 전체 값 읽기\t\t3. 검색\n---------------------------------------------------------------------------\n");
 		}
 		if (selection_flag2 == 4) {
-			printf("---------------------------------------------------------------------------\n1. 항목 수정\t\t2. 항목의 목적 수정\t\t3. 항목의 금액 수정\n4. 날짜 수정\t\t5. 금액 기준 정렬\n---------------------------------------------------------------------------\n");
+			printf("---------------------------------------------------------------------------\n1. 항목 수정\t\t2. 항목의 목적 수정\t\t3. 항목의 금액 수정\n4. 날짜 수정\t\t5. 금액 기준 정렬\t\t6. 날짜 병합\n---------------------------------------------------------------------------\n");
 		}
 
 
@@ -267,6 +268,72 @@ int main() {
 
 			if (Lists != NULL) {
 				AppendFromHead(Lists, k, Num_tmp2, String);
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+				continue;
+			}
+			else {
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+				printf("해당리스트는 만들어지지 않았습니다.\n\n\n");
+				continue;
+
+			}
+		}
+
+		if (Selection == 6 && selection_flag2 == 1) {
+			Selection_flag = 1;
+			if (!Lists) {
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+				printf("관리자 생성 필요\n");
+				continue;
+			}
+			if (Lists->m_uCount == 0) {
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+				printf("먼저 날짜를 추가해야 합니다.\n\n");
+				continue;
+			}
+			system("cls");
+			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+
+			
+
+
+			printf("금액 ? :");
+			err = scanf("%lld", &Num_tmp2);
+			if (err != 1) {
+				printf("\n잘못된 입력\n");
+				Sleep(300);
+				int ch;
+				while ((ch = getchar()) != '\n' && ch != EOF) {}
+
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+				continue;
+
+			}
+			else {
+				if (Num_tmp2 >= INT_MIN && Num_tmp2 <= INT_MAX) {
+
+				}
+				else {
+					system("cls");
+					SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+					printf("오버,언더플로우 발생\n\n");
+
+
+					continue;
+				}
+			}
+			int ch;
+			while ((ch = getchar()) != '\n' && ch != EOF) {};
+			printf("목적은? :");
+			std::getline(cin, String);
+
+			if (Lists != NULL) {
+				AppendFromAllHead(Lists, Num_tmp2, String);
 				system("cls");
 				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 				continue;
@@ -1309,6 +1376,12 @@ int main() {
 
 		if (Selection == 3 && selection_flag2 == 3) {
 			Selection_flag = 1;
+			if (!Lists) {
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+				printf("관리자 생성 필요\n");
+				continue;
+			}
 			int ch;
 			while ((ch = getchar()) != '\n' && ch != EOF) {};
 			cout << "검색어 :";
@@ -1320,12 +1393,90 @@ int main() {
 
 		if (Selection == 5 && selection_flag2 == 4) {
 			Selection_flag = 1;
+			if (!Lists) {
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+				printf("관리자 생성 필요\n");
+				continue;
+			}
 			SortBySelection_Object(Lists);
 			system("cls");
 			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 		}
 
-	
+		if (Selection == 6 && selection_flag2 == 4) {
+			Selection_flag = 1;
+
+			if (!Lists) {
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+				printf("관리자 생성 필요\n");
+				continue;
+			}
+			if (Lists->m_uCount == 0) {
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+
+
+				printf("먼저 날짜를 추가해야 합니다.\n\n");
+				continue;
+			}
+			system("cls");
+			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+
+			Lists->m_pCurrent = Lists->m_pHead;
+
+			for (int i = 0; i < Lists->m_uCount; i++) {
+				cout << endl << i << ".\t" << Lists->m_pCurrent->m_Date;
+				Lists->m_pCurrent = Lists->m_pCurrent->m_pNext;
+			}
+			cout << "\n---------------------------------------------------------------------------\n";
+
+			printf("\n병합할 날짜 ?( a += b)\n a :");
+			err = scanf("%d", &k);
+			if (err != 1) {
+
+				while (getchar() != '\n') {}
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+				printf("\n잘못된 입력\n");
+				Sleep(300);
+				continue;
+
+			}
+			if (k < 0 || k >= Lists->m_uCount) {
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+				cout << "0~" << Lists->m_uCount - 1 << "사이만 가능" << endl;
+
+				continue;
+			}
+			printf("\nb :");
+			err = scanf("%d", &Num_tmp);
+			if (err != 1) {
+
+				while (getchar() != '\n') {}
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+				printf("\n잘못된 입력\n");
+				Sleep(300);
+				continue;
+
+			}
+			if (Num_tmp < 0 || Num_tmp >= Lists->m_uCount) {
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+				cout << "0~" << Lists->m_uCount - 1 << "사이만 가능" << endl;
+
+				continue;
+			}
+			system("cls");
+			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+			Merger(Lists, k, Num_tmp);
+			continue;
+
+		}
+
 		if (Selection_flag == 0) {
 			system("cls");
 			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos); continue;
