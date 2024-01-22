@@ -1,7 +1,7 @@
 #pragma once
 #ifndef _LinkedList_int_h
 #define _LinkedList_int_h
-#include<string>
+#include<string>a
 #include<iostream>
 #include "Node_int.h"
 #include "NodeList_int.h"

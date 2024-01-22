@@ -75,18 +75,18 @@ int main() {
 		int Selection_flag = 0;
 		int selection_flag2 = 0;
 
-		printf("내부 구성. 리스트(관리구조) -> 날짜(디렉터리) -> 항목(데이터)");
+		printf("내부 구성//// 리스트(관리구조) -> 날짜(디렉터리) -> 항목(데이터)////");
 		printf("\n\n");
 		long long Num_tmp = 0;
 		long long Num_tmp2 = 0;
 		long long Num_tmp3 = 0;
 		if (!Node_tmp) Node_tmp == NULL;
 
-		printf("날짜(디렉터리)들 _\n");
+		printf("날짜(디렉터리)들 _-----------------------------------------------\n");
 
 		if (Lists != NULL) {
 			int count = 0;
-			printf("\nList  _");
+			printf("\n");
 			if (!Lists->m_pHead) { printf("Empty"); }
 			NodeList* curr = Lists->m_pHead;
 			while (count < Lists->m_uCount) {
@@ -96,16 +96,31 @@ int main() {
 				count++;
 			}
 			printf("\n\n");
-			cout << "총액 :" << Lists->m_Total<<endl<<"-------------------------------------------------"<<endl;
+			cout << "총액 :" << Lists->m_Total<<endl<<"------------------------------------------------------------------------------"<<endl;
 		}
-		else printf("\n@ ");
+		else printf("\n@ \n----------------------------------------------------------------------------------------------------");
 
 
 		
 
 		cout << "1. 추가  2. 삭제. 3. 탐색  4. 변형" << endl;
 		printf("\n\n->");
-		cin >> selection_flag2;
+
+		int err = scanf("%d", &selection_flag2);
+		if (err != 1) {
+
+			printf("\n잘못된 입력\n");
+			Sleep(300);
+			while (getchar() != '\n') {}
+			system("cls");
+			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+			continue;
+
+		}
+
+		printf("\n\n");
+
+
 		if (selection_flag2 != 1 && selection_flag2 != 2 && selection_flag2 != 3 && selection_flag2 != 4) { 
 			system("cls");
 			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
@@ -133,7 +148,7 @@ int main() {
 		int Selection = -1;
 
 		printf("\n기능 선택:");
-		int err = scanf("%d", &Selection);
+		err = scanf("%d", &Selection);
 		if (err != 1) {
 
 			printf("\n잘못된 입력\n");
@@ -448,6 +463,8 @@ int main() {
 				continue;
 			}
 			if (Lists->m_uCount == 0) {
+				system("cls");
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 				printf("생성된 날짜가 없습니다..\n");
 				continue;
 			}
